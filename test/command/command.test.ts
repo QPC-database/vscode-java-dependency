@@ -78,6 +78,7 @@ describe("Command Tests", function() {
         await sleep(1000);
         await fileSections[0].collapse();
         const section = await new SideBarView().getContent().getSection("Java Projects");
+        await section.click();
         const packageNode = await section.findItem("com.mycompany.app") as TreeItem;
         assert.ok(await packageNode.isExpanded());
         const classNode = await section.findItem("App") as TreeItem;
@@ -97,6 +98,7 @@ describe("Command Tests", function() {
         await sleep(1000);
         await fileSections[0].collapse();
         const section = await new SideBarView().getContent().getSection("Java Projects");
+        await section.click();
         const packageNode = await section.findItem("com.mycompany.app") as TreeItem;
         assert.ok(!await packageNode.isExpanded());
     });
@@ -104,6 +106,7 @@ describe("Command Tests", function() {
     it("Test java.view.package.newJavaClass", async function() {
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const item = await section.findItem("my-app") as TreeItem;
+        await item.click();
         const button = await item.getActionButton("New Java Class");
         await button?.click();
         let inputBox = await InputBox.create();
@@ -125,6 +128,7 @@ describe("Command Tests", function() {
     it("Test java.view.package.newPackage", async function() {
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const item = await section.findItem("my-app") as TreeItem;
+        await item.click();
         const contextMenu = await item.openContextMenu();
         const newPackageItem = await contextMenu.getItem("New Package");
         await newPackageItem?.click();
@@ -146,6 +150,7 @@ describe("Command Tests", function() {
         await fileExplorerSections[0].expand();
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const packageNode = await section.findItem("com.mycompany.app") as TreeItem;
+        await packageNode.click();
         await packageNode.collapse();
         const srcNode = await fileExplorerSections[0].findItem("src") as TreeItem;
         await srcNode.expand();
@@ -190,6 +195,7 @@ describe("Command Tests", function() {
     it("Test java.view.package.moveFileToTrash", async function() {
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const classNode = await section.findItem("AppToDelete") as TreeItem;
+        await classNode.click();
         const menu = await classNode.openContextMenu();
         const copyItem = await menu.getItem("Delete");
         await copyItem?.click();
