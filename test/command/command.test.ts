@@ -74,6 +74,7 @@ describe("Command Tests", function() {
         await subFolderNode.expand();
         const fileNode = await fileSections[0].findItem("App.java") as TreeItem;
         await fileNode.click();
+        await sleep(1000);
         await fileSections[0].collapse();
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const packageNode = await section.findItem("com.mycompany.app") as TreeItem;
@@ -92,6 +93,7 @@ describe("Command Tests", function() {
         await fileSections[0].expand();
         const fileNode = await fileSections[0].findItem("App.java") as TreeItem;
         await fileNode.click();
+        await sleep(1000);
         await fileSections[0].collapse();
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const packageNode = await section.findItem("com.mycompany.app") as TreeItem;
@@ -207,7 +209,7 @@ describe("Command Tests", function() {
         const dialog: OpenDialog = await DialogHandler.getOpenDialog();
         await dialog.selectPath(invisibleWorkspacePath);
         await dialog.confirm();
-        sleep(1000);
+        await sleep(1000);
         const fileExplorerSections = await new SideBarView().getContent().getSections();
         const folderNode = await fileExplorerSections[0].findItem("src") as TreeItem;
         await folderNode.expand();
@@ -231,7 +233,7 @@ describe("Command Tests", function() {
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const projectItem = await section.findItem("invisible") as TreeItem;
         await projectItem.expand();
-        sleep(1000);
+        await sleep(1000);
         const referencedItem = await section.findItem("Referenced Libraries") as TreeItem;
         await referencedItem.click();
         const buttons = await referencedItem.getActionButtons();
@@ -246,7 +248,7 @@ describe("Command Tests", function() {
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const projectItem = await section.findItem("invisible") as TreeItem;
         await projectItem.expand();
-        sleep(1000);
+        await sleep(1000);
         let referencedItem = await section.findItem("Referenced Libraries") as TreeItem;
         await referencedItem.click();
         const buttons = await referencedItem.getActionButtons();
