@@ -35,6 +35,7 @@ describe("Command Tests", function() {
         await refreshSetting.setValue(true);
         const viewSetting = await settingsEditor.findSetting("Package Presentation", "Java", "Dependency");
         await viewSetting.setValue("flat");
+        await sleep(1000);
         const fileSections = await new SideBarView().getContent().getSections();
         await fileSections[0].collapse();
         // await importing project
