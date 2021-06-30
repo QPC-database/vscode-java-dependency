@@ -74,17 +74,10 @@ async function main(): Promise<void> {
             ],
         });
 
-        if (platform() === "darwin") {
-            // The current UI test framework doesn't support mac title bar and context menus.
-            // See: https://github.com/redhat-developer/vscode-extension-tester#requirements
-            // So we dismiss UI tests in mac.
-            process.exit(0);
-        } else {
-            // Run UI command tests
-            const extester = new ExTester();
-            const testPath = path.join(__dirname, "command", "command.test.js");
-            process.exit(await extester.setupAndRunTests(testPath, "1.57.0"));
-        }
+        // Run UI command tests
+        const extester = new ExTester();
+        const testPath = path.join(__dirname, "command", "command.test.js");
+        process.exit(await extester.setupAndRunTests(testPath, "1.57.0"));
     } catch (err) {
         process.exit(1);
     }

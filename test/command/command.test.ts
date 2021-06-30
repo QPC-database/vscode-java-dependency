@@ -18,7 +18,17 @@ const targetPath = path.join(__dirname, "..", "..", "..", "test", "newProject");
 
 describe("Command Tests", function() {
 
+    this.timeout(60000);
+
     before(async function() {
+        sleep(5000);
+    });
+
+    beforeEach(async function() {
+        await sleep(5000);
+    });
+
+    it("Test open maven project", async function() {
         await new Workbench().executeCommand("Workspaces: Open Workspace...");
         const dialog: OpenDialog = await DialogHandler.getOpenDialog();
         await dialog.selectPath(mavenWorskspacePath);
@@ -38,20 +48,7 @@ describe("Command Tests", function() {
         await sleep(1000);
         const fileSections = await new SideBarView().getContent().getSections();
         await fileSections[0].collapse();
-        // await importing project
-        await new Promise<void>(async (resolve) => {
-            const interval = setInterval(async () => {
-                const item = await new StatusBar().getItem("ServiceReady");
-                if (item) {
-                    clearInterval(interval);
-                    resolve();
-                }
-            }, 1000);
-        });
-    });
-
-    beforeEach(async function() {
-        await sleep(5000);
+        await waitForImporting(1000);
     });
 
     it("Test javaProjectExplorer.focus", async function() {
@@ -222,15 +219,7 @@ describe("Command Tests", function() {
         await folderNode.expand();
         const fileNode = await fileExplorerSections[0].findItem("App.java") as TreeItem;
         await fileNode.click();
-        await new Promise<void>(async (resolve) => {
-            const interval = setInterval(async () => {
-                const item = await new StatusBar().getItem("ServiceReady");
-                if (item) {
-                    clearInterval(interval);
-                    resolve();
-                }
-            }, 1000);
-        });
+        await waitForImporting(1000);
         const fileSections = await new SideBarView().getContent().getSections();
         await fileSections[0].collapse();
         await new Workbench().executeCommand("javaProjectExplorer.focus");
@@ -301,4 +290,16 @@ describe("Command Tests", function() {
 
 async function sleep(time: number) {
     await new Promise((resolve) => setTimeout(resolve, time));
+}
+
+async function waitForImporting(time: number) {
+    await new Promise<void>(async (resolve) => {
+        const interval = setInterval(async () => {
+            const item = await new StatusBar().getItem("ServiceReady");
+            if (item) {
+                clearInterval(interval);
+                resolve();
+            }
+        }, time);
+    });
 }
