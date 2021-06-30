@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as cp from "child_process";
-import { platform } from "os";
 import * as path from "path";
 import { ExTester } from "vscode-extension-tester";
 import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTests } from "vscode-test";
