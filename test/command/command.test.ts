@@ -3,6 +3,7 @@
 
 import * as assert from "assert";
 import * as fse from "fs-extra";
+import { platform } from "os";
 import * as path from "path";
 import * as seleniumWebdriver from "selenium-webdriver";
 import { EditorView, InputBox, ModalDialog, SideBarView, StatusBar, TextEditor, TreeItem, Workbench } from "vscode-extension-tester";
@@ -123,6 +124,12 @@ describe("Command Tests", function() {
     });
 
     it("Test java.view.package.newPackage", async function() {
+        // The current UI test framework doesn't support mac title bar and context menus.
+        // See: https://github.com/redhat-developer/vscode-extension-tester#requirements
+        // So we dismiss some UI tests on mac.
+        if (platform() === "darwin") {
+            this.skip();
+        }
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const item = await section.findItem("my-app") as TreeItem;
         await item.click();
@@ -143,6 +150,9 @@ describe("Command Tests", function() {
     });
 
     it("Test java.view.package.revealInProjectExplorer", async function() {
+        if (platform() === "darwin") {
+            this.skip();
+        }
         const fileExplorerSections = await new SideBarView().getContent().getSections();
         await fileExplorerSections[0].expand();
         const section = await new SideBarView().getContent().getSection("Java Projects");
@@ -163,6 +173,9 @@ describe("Command Tests", function() {
     });
 
     it("Test java.view.package.renameFile", async function() {
+        if (platform() === "darwin") {
+            this.skip();
+        }
         const section = await new SideBarView().getContent().getSection("Java Projects");
         await section.click();
         const classNode = await section.findItem("AppToRename") as TreeItem;
@@ -190,6 +203,9 @@ describe("Command Tests", function() {
     });
 
     it("Test java.view.package.moveFileToTrash", async function() {
+        if (platform() === "darwin") {
+            this.skip();
+        }
         const section = await new SideBarView().getContent().getSection("Java Projects");
         const classNode = await section.findItem("AppToDelete") as TreeItem;
         await classNode.click();
